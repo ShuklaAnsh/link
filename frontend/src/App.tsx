@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
+import {FileInput, Button} from '@blueprintjs/core';
 import './App.css';
 
-function App() {
+export const App = () => {
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log(event)
+    const form: HTMLFormElement = document.getElementById(
+      "file-upload-form"
+    ) as HTMLFormElement;
+    const resp = await fetch("/api/file", {
+      method: "post",
+      body: new FormData(form),
+    });
+    console.log(resp)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+        <form id={"file-upload-form"} onSubmit={e => handleSubmit(e)}>
+          <FileInput />
+          <Button type={"submit"} />
+        </form>
     </div>
   );
 }
-
-export default App;
